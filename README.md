@@ -16,6 +16,13 @@ Notificar empresas cadastradas sobre novas oportunidades.
 
 Disponibilizar relatórios de maneira prática e acessível.
 
+📊 Relevância
+
+Técnica: aplica conceitos modernos de desenvolvimento web, automação com Puppeteer e gestão de dados.
+
+Social: democratiza o acesso de PMEs às licitações, reduz desigualdades competitivas e fortalece a economia local.
+
+
 🛠️ Tecnologias Utilizadas
 
 Next.js → framework React para frontend e SSR/SSG.
@@ -42,17 +49,9 @@ Git/GitHub → versionamento do projeto.
 
 /models → diagramas UML, BPMN e protótipos.
 
-/reports → relatórios de desenvolvimento e apresentação acadêmica.
-
 📖 Documentação
 
 Toda a documentação do projeto (pré-projeto, justificativas, objetivos, metodologia, bibliografia, cronograma e anexos) está disponível na pasta /docs.
-
-📊 Relevância
-
-Técnica: aplica conceitos modernos de desenvolvimento web, automação com Puppeteer e gestão de dados.
-
-Social: democratiza o acesso de PMEs às licitações, reduz desigualdades competitivas e fortalece a economia local.
 
 👨‍🏫 Orientador
  Prof. Carlos Eduardo de França Roland
