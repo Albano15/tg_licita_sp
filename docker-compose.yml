@@ -26,3 +26,5 @@ services:
       - SYS_ADMIN
     environment:
       - PUPPETEER_EXECUTABLE_PATH=/usr/bin/chromium
+    volumes:
+      - ./scraper/cron.d:/etc/cron.d:rw
