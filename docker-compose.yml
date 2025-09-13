@@ -27,4 +27,6 @@ services:
     environment:
       - PUPPETEER_EXECUTABLE_PATH=/usr/bin/chromium
     volumes:
+      - ./scraper:/usr/src/app
+      - /usr/src/app/node_modules
       - ./scraper/cron.d:/etc/cron.d:rw
