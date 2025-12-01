@@ -1,0 +1,380 @@
+<!-- header.php contém o topbar e o infogov_aside -->
+{% include 'includes/header.html' %}
+
+<style>
+  /* Estilo da legenda */
+  .legend-box {
+    width: 16px;
+    height: 16px;
+    display: inline-block;
+    border-radius: 3px;
+  }
+
+  /* Estilo da nuvem de palavras */
+  .sugestao {
+    text-decoration: none;
+    cursor: pointer;
+  }
+
+  .sugestao span {
+    display: inline-block;
+    margin: 5px;
+    font-size: 13px;
+  }
+
+  /* Estilo para palavras ativas */
+  .palavra-ativa {
+    background-color: #eff9f7;
+    /* Cor suave de fundo para palavras ativas */
+    color: #006f5f;
+    /* Cor principal para palavras ativas */
+  }
+
+  .palavra-ativa:hover {
+    background-color: #006f5f;
+    /* Fundo quando hover */
+    color: #fff;
+    /* Cor do texto quando hover */
+  }
+
+  .palavra-ativa:hover i {
+    opacity: 1;
+  }
+
+  /* Estilo para palavras inativas */
+  .palavra-inativa {
+    background-color: #fbe7e9;
+    /* Cor suave de fundo para palavras inativas */
+    color: #d9534f;
+    /* Cor de texto para palavras inativas */
+  }
+
+  .palavra-inativa:hover {
+    background-color: #d9534f;
+    /* Fundo quando hover */
+    color: #fff;
+    /* Cor do texto quando hover */
+  }
+
+  .palavra-inativa:hover i {
+    opacity: 1;
+  }
+
+  .sugestao span i {
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+
+  /* Ajuste do layout para o flex-wrap da nuvem de palavras */
+  .card-body {
+    padding-left: 0;
+    padding-right: 0;
+  }
+
+  .d-flex {
+    display: flex;
+  }
+
+  .flex-wrap {
+    flex-wrap: wrap;
+  }
+
+  .justify-content-start {
+    justify-content: flex-start;
+  }
+
+  #lista_palavras {
+    border: 2px solid #0f2d5c;
+    /* Cor da borda */
+    border-radius: 12px;
+    /* Bordas arredondadas */
+    padding: 15px;
+    /* Espaçamento interno */
+    box-shadow: 0 4px 8px rgba(0, 123, 255, 0.2);
+    /* Sombra suave */
+    transition: all 0.3s ease;
+    /* Transição suave */
+  }
+
+  #lista_palavras:hover {
+    border-color: #0056b3;
+    /* Cor da borda ao passar o mouse */
+    box-shadow: 0 6px 12px rgba(0, 123, 255, 0.3);
+    /* Efeito de sombra ao passar o mouse */
+  }
+</style>
+
+<div class="card">
+  <div class="card-body p-lg-20 p-sm-3">
+    <div class="card-body p-lg-20 p-sm-3">
+      <div class="d-flex align-items-center justify-content-between gap-2">
+        <h4 class="mb-0">Gerenciar Palavras</h4>
+        <div class="d-flex align-items-center gap-2">
+          <input type="text" id="addPalavra" onkeyup="filtrarPalavras(this.value)"
+            class="form-control ps-44 h-44 border-gray-100 focus-border-main-600 rounded-pill placeholder-15"
+            placeholder="Buscar ou adicionar..." style="max-width: 400px;">
+          <button type="button" onclick="inserirPalavra()"
+            class="btn btn-main d-flex align-items-center justify-content-center rounded-circle p-0"
+            style="width: 40px; height: 35px;">
+            <i class="ph ph-plus text-white" style="font-size: 20px;"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Nuvem de palavras -->
+    <div class="d-flex flex-wrap justify-content-start" id="lista_palavras">
+
+    </div>
+
+    <!-- Legenda de status -->
+    <div class="row mb-4 pt-3 mt-4">
+      <div class="d-flex align-items-center col-sm-3">
+        <div class="legend-box btn-main me-2"></div>
+        <a class="btn btn-main rounded-pill py-9">Palavras Ativas</a>
+      </div>
+      <div class="d-flex align-items-center mb-2 col-sm-3">
+        <div class="legend-box bg-danger me-2"></div>
+        <a class="btn btn-danger rounded-pill py-9">Palavras Inativas</a>
+      </div>
+    </div>
+
+  </div>
+</div>
+</div>
+<script>
+  // Mock de dados inicial usando localStorage
+  let palavrasDB = JSON.parse(localStorage.getItem('palavras')) || [
+    { IDPalavra: 1, Palavra: 'Exemplo', Status: 1 },
+    { IDPalavra: 2, Palavra: 'Teste', Status: 0 }
+  ];
+
+  function removerAcentos(str) {
+    return str.normalize("NFD").replace(/[̀-ͯ]/g, "");
+  }
+
+  function atualizarLocalStorage() {
+    localStorage.setItem('palavras', JSON.stringify(palavrasDB));
+  }
+
+  function buscarListaPalavras() {
+    let divPalavras = $('#lista_palavras');
+    divPalavras.empty();
+
+    palavrasDB.forEach(palavra => {
+      let ativo = palavra.Status == 1;
+      let classeStatus = ativo ? 'palavra-ativa' : 'palavra-inativa';
+      let classeIcone = ativo ? 'ph-x text-danger' : 'ph-check text-success';
+
+      divPalavras.append(`
+        <a href="#" class="sugestao ${classeStatus} rounded-pill py-9 mb-3 me-4 position-relative"
+          onclick="ativarInativar(${palavra.IDPalavra})"
+          data-palavra="${removerAcentos(palavra.Palavra.toLowerCase())}">
+          <span class="d-inline-block px-3">${palavra.Palavra}</span>
+          <i class="ph ${classeIcone} position-absolute end-0 top-0 mt-1 me-2" style="font-size: 16px;"></i>
+        </a>
+      `);
+    });
+
+    if (palavrasDB.length === 0) {
+      divPalavras.append('<p id="nenhuma-palavra" class="text-muted text-center">Nenhuma palavra encontrada</p>');
+    }
+  }
+
+  function ativarInativar(idpalavra) {
+    const palavraIndex = palavrasDB.findIndex(p => p.IDPalavra === idpalavra);
+    if (palavraIndex === -1) return;
+
+    palavrasDB[palavraIndex].Status = palavrasDB[palavraIndex].Status === 1 ? 0 : 1;
+    atualizarLocalStorage();
+    buscarListaPalavras();
+  }
+
+  function filtrarPalavras(termo) {
+    const termoNormalizado = removerAcentos(termo.toLowerCase());
+    let encontrado = false;
+    
+    document.querySelectorAll('.sugestao').forEach(item => {
+      const palavra = item.getAttribute('data-palavra');
+      if (palavra.includes(termoNormalizado)) {
+        item.style.display = "inline-flex";
+        encontrado = true;
+      } else {
+        item.style.display = "none";
+      }
+    });
+
+    const msgNenhuma = document.getElementById('nenhuma-palavra');
+    if (msgNenhuma) msgNenhuma.style.display = encontrado ? "none" : "block";
+  }
+
+  function inserirPalavra() {
+    const input = document.getElementById('addPalavra');
+    const novaPalavra = input.value.trim();
+
+    // Validações
+    if (novaPalavra.length < 3) {
+      Swal.fire('Erro!', 'A palavra precisa ter 3 ou mais letras', 'error');
+      return;
+    }
+
+    if (/[\.\d]/.test(novaPalavra)) {
+      Swal.fire('Erro!', 'Não são permitidos números ou pontos', 'error');
+      return;
+    }
+
+    // Verifica se já existe
+    if (palavrasDB.some(p => p.Palavra.toLowerCase() === novaPalavra.toLowerCase())) {
+      Swal.fire('Atenção!', 'Esta palavra já está cadastrada', 'warning');
+      return;
+    }
+
+    // Adiciona nova palavra
+    const novoId = Math.max(...palavrasDB.map(p => p.IDPalavra)) + 1 || 1;
+    palavrasDB.push({
+      IDPalavra: novoId,
+      Palavra: novaPalavra,
+      Status: 1
+    });
+
+    input.value = '';
+    atualizarLocalStorage();
+    buscarListaPalavras();
+    Swal.fire('Sucesso!', 'Palavra adicionada com sucesso', 'success');
+  }
+
+  // Inicialização
+  document.addEventListener('DOMContentLoaded', buscarListaPalavras);
+</script>
+<!-- <script>
+  // Função de ativar e inativar palavras
+  function ativarInativar(idpalavra, status) {
+    let statusInvertido = status == 1 ? 0 : 1;
+    Swal.fire({
+      title: 'Tem certeza?',
+      text: `Você deseja ${status === 0 ? 'ativar' : 'desativar'} a palavra?`,
+      icon: 'question',
+      showCancelButton: true,
+      confirmButtonText: 'Sim',
+      cancelButtonText: 'Não',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        $.ajax({
+          url: './assets/ajax/palavras.php',
+          method: 'POST',
+          data: {
+            idpalavra: idpalavra,
+            option: 'ativarInativarPalavra',
+            statusInvertido: statusInvertido
+          },
+          success: function(data) {
+            buscarListaPalavras();
+          }
+        });
+      }
+    });
+  }
+
+  //busca as palavras cadastradas para a empresa e exibe
+  function removerAcentos(str) {
+    return str.normalize("NFD").replace(/[̀-ͯ]/g, "");
+  }
+
+  function buscarListaPalavras() {
+    $.ajax({
+      url: './assets/ajax/palavras.php?option=buscarListaPalavras',
+      method: 'POST',
+      data: {
+        option: 'buscarListaPalavras'
+      },
+      success: function(data) {
+        let palavra = JSON.parse(data);
+        let divPalavras = $('#lista_palavras');
+        divPalavras.empty();
+
+        for (let i = 0; i < palavra.length; i++) {
+          let ativo = palavra[i].Status == 1;
+          let classeBotao = ativo ? 'btn-main' : 'btn-danger';
+          let classeIcone = ativo ? 'ph-x text-danger' : 'ph-check text-success';
+          let novoStatus = ativo ? 0 : 1;
+
+          divPalavras.append(`<a href="#" class="sugestao btn ${classeBotao} rounded-pill py-9 mb-3 me-4"
+                                onclick="ativarInativar(${palavra[i].IDPalavra}, ${palavra[i].Status})"
+                                data-palavra="${removerAcentos(palavra[i].Palavra.toLowerCase())}">
+                                ${palavra[i].Palavra}
+                                <i class="ph ${classeIcone} position-absolute end-0 top-0" style="font-size: 16px;"></i>
+                              </a>`);
+        }
+        divPalavras.append('<p id="nenhuma-palavra" class="text-muted text-center" style="display: none;">Nenhuma palavra encontrada</p>');
+      }
+    });
+  }
+  buscarListaPalavras();
+
+  function filtrarPalavras(palavra) {
+    const items = document.querySelectorAll(".sugestao");
+    const termo = removerAcentos(palavra.toLowerCase());
+    let encontrado = false;
+
+    items.forEach(item => {
+      if (item.getAttribute("data-palavra").includes(termo)) {
+        item.style.display = "block";
+        encontrado = true;
+      } else {
+        item.style.display = "none";
+      }
+    });
+
+    document.getElementById("nenhuma-palavra").style.display = encontrado ? "none" : "block";
+  }
+
+  function inserirPalavra() {
+    let palavra = $('#addPalavra').val().trim();
+
+    if (palavra.length < 3) {
+      Swal.fire({
+        title: 'Atenção!',
+        text: 'A palavra precisa ter 3 ou mais letras',
+        icon: 'error',
+        confirmButtonText: 'Ok'
+      });
+      return;
+    }
+
+    if (/\./.test(palavra)) {
+      Swal.fire({
+        title: 'Atenção!',
+        text: 'A palavra não pode conter pontos ou símbolos.',
+        icon: 'error',
+        confirmButtonText: 'Ok'
+      });
+      return;
+    }
+
+    Swal.fire({
+      title: 'Tem certeza?',
+      text: `Deseja inserir a palavra ${palavra}?`,
+      icon: 'question',
+      showCancelButton: true,
+      confirmButtonText: 'Sim',
+      cancelButtonText: 'Não',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        $.ajax({
+          url: './assets/ajax/palavras.php',
+          method: 'POST',
+          data: {
+            palavra: palavra,
+            option: 'inserirPalavra',
+            idusuario: '1'
+          },
+          success: function(data) {
+            buscarListaPalavras();
+          }
+        });
+      }
+    });
+  }
+</script> -->
+
+{% include 'includes/footer.html' %}

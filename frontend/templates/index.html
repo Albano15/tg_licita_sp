@@ -1,0 +1,955 @@
+<!-- Inclua as bibliotecas JS -->
+{% include 'includes/header.html' %}
+<div class="row gy-4">
+  <div class="col-lg-8 order-2 order-lg-1">
+    <div class="card">
+      <div class="card-body">
+        <div class="mb-20 flex-between flex-wrap gap-8">
+          <h4 class="mb-0" id="top-page">Publicações</h4>
+          <div class="container-btn">
+            <div class="tabs">
+              <input type="radio" value="todos" style="display: none;" id="radio-1" name="tabs" checked=""
+                data-bs-original-title="" title="">
+              <label class="tab" for="radio-1">Todas</label>
+              <input type="radio" value="portarias" id="radio-2" name="tabs" data-bs-original-title="" title="">
+              <label class="tab" for="radio-2">Avisos de Licitações</label>
+              <input type="radio" value="agenda" id="radio-3" name="tabs" data-bs-original-title="" title="">
+              <label class="tab" for="radio-3">Avisos de ratificação</label>
+              <input type="radio" value="projetos" id="radio-4" name="tabs" data-bs-original-title="" title="">
+              <label class="tab" for="radio-4">Comunicados</label>
+              <span class="glider"></span>
+            </div>
+          </div>
+        </div>
+        <div id="publicacoes" class="publicacoes">
+          <a href="publicacao" class="item" data-category="agenda-deputados">
+            <div
+              class="p-xl-4 pb-14 pt-4 px-12 gap-8 rounded-8 border border-gray-100 hover-border-gray-200 transition-1 mb-16">
+              <div class="flex-between">
+                <div class="flex-align gap-4">
+                  <span class="text-11 text-gray-200 d-flex"><i class="ph ph-calendar-dots"></i></span>
+                  <span class="text-11 text-gray-200">20/08/2025</span>
+                </div>
+                <div>
+                  <span
+                    class="text-13 py-2 px-10 bg-success-50 text-success-600 d-inline-flex align-items-center gap-8 rounded-pill">
+                    Lida
+                  </span>
+                </div>
+              </div>
+              <div class="flex-between gap-8">
+                <span
+                  class="text-main-500 bg-main-50 w-44 h-44 rounded-circle flex-center text-xl flex-shrink-0 monograma">DO</span>
+                <div>
+                  <h7 class="mb-0 span">Diário Oficial</h7>
+                  <h6 class="mb-0">Avisos de Licitações</h6>
+                  <span class="text-13 text-gray-400">O SECRETÁRIO EXECUTIVO, RESPONDENDO PELO EXPEDIENTE DA CASA CIVIL,
+                    com fundamento no artigo 4º do Decreto nº 29.838, de 18 de abril de 1989, DESIGNA, a contar de
+                    29...</span>
+                </div>
+                <span class="text-gray-900 hover-text-main-600"><i class="ph ph-caret-right"></i></span>
+              </div>
+            </div>
+          </a>
+
+          <a href="publicacao" class="item" data-category="agenda-deputados">
+            <div
+              class="p-xl-4 pb-14 pt-4 px-12 gap-8 rounded-8 border border-gray-100 hover-border-gray-200 transition-1 mb-16">
+              <div class="flex-between">
+                <div class="flex-align gap-4">
+                  <span class="text-11 text-gray-200 d-flex"><i class="ph ph-calendar-dots"></i></span>
+                  <span class="text-11 text-gray-200">20/01/2025</span>
+                </div>
+
+              </div>
+              <div class="flex-between gap-8">
+                <span
+                  class="text-success-600 bg-success-50 w-44 h-44 rounded-circle flex-center text-xl flex-shrink-0 monograma">AD</span>
+                <div>
+                  <h7 class="mb-0 span text-success-600">Avisos de ratificação</h7>
+                  <h6 class="mb-0">Edital N° 6.320</h6>
+                  <span class="text-13 text-gray-400">Lorem ipsum dolor sit amet consectetur adipisicing elit. Debitis
+                    necessitatibus consequuntur facilis vero sit, ipsa esse iusto doloribus ut a perferendis!</span>
+                </div>
+                <span class="text-gray-900 hover-text-main-600"><i class="ph ph-caret-right"></i></span>
+              </div>
+            </div>
+          </a>
+
+          <a href="publicacao" class="item" data-category="agenda-deputados">
+            <div class="p-xl-4 pb-14 pt-4 px-12  rounded-8 border border-gray-100 hover-border-gray-200 transition-1">
+              <div class="flex-between">
+                <div class="flex-align gap-4">
+                  <span class="text-11 text-gray-200 d-flex"><i class="ph ph-calendar-dots"></i></span>
+                  <span class="text-11 text-gray-200">20/01/2025</span>
+                </div>
+
+              </div>
+              <div class="flex-between gap-8">
+                <span
+                  class="text-danger-600 bg-danger-50 w-44 h-44 rounded-circle flex-center text-xl flex-shrink-0 monograma">PL</span>
+                <div>
+                  <h7 class="mb-0 span text-danger-600">Projetos de Lei</h7>
+                  <h6 class="mb-0">PL 9543/2018 </h6>
+                  <span class="text-13 text-gray-400">Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusamus
+                    quas nihil maxime amet soluta. Tempore nam assumenda reprehenderit ea deserunt quibusdam, nobis
+                    laudantium...</span>
+                </div>
+                <span class="text-gray-900 hover-text-main-600"><i class="ph ph-caret-right"></i></span>
+              </div>
+            </div>
+          </a>
+        </div>
+        <div class="flex-between flex-wrap gap-8 mt-20" id="paginacao">
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-lg-4 order-1 order-lg-2">
+    <!-- Calendar Start -->
+    <div class="card">
+      <div class="card-body">
+        <form action="#">
+          <div class="position-relative">
+            <button type="submit" class="input-icon text-xl d-flex text-gray-100 pointer-event-none">
+              <i class="ph ph-magnifying-glass"></i>
+            </button>
+            <input type="text"
+              class="form-control ps-40 h-40 border-transparent focus-border-main-600 bg-main-50 rounded-pill placeholder-15"
+              id="buscar" onkeyup="buscarPublicacoes(1)" placeholder="Buscar...">
+          </div>
+        </form>
+        <!-- <span class="mt-10 text-13 text-gray-400">Sugestões:</span> -->
+
+        <input class="form-check-input flex-shrink-0 rounded-4 mt-10" type="checkbox" value="" id="favoritas"><label
+          class="form-check-label text-15 flex-grow-1 mt-8" style="margin-left: 6px;" for="favoritas">Favoritas</label>
+        <input class="form-check-input flex-shrink-0 rounded-4 mt-10" style="margin-left: 10px;" type="checkbox"
+          value="" id="lidas"><label class="form-check-label text-15 flex-grow-1 mt-8" style="margin-left: 6px;"
+          for="lidas">Lidas</label>
+
+        <div
+          class="calendar mt-10 p-xl-4 py-16 px-12  rounded-8 border border-gray-100 hover-border-gray-200 transition-1">
+          <div class="calendar__header">
+            <button type="button" class="calendar__arrow left"><i class="ph ph-caret-left"></i></button>
+            <p class="display h6 mb-0">""</p>
+            <button type="button" class="calendar__arrow right"><i class="ph ph-caret-right"></i></button>
+          </div>
+
+          <div class="calendar__week week">
+            <div class="calendar__week-text">D</div>
+            <div class="calendar__week-text">S</div>
+            <div class="calendar__week-text">T</div>
+            <div class="calendar__week-text">Q</div>
+            <div class="calendar__week-text">Q</div>
+            <div class="calendar__week-text">S</div>
+            <div class="calendar__week-text">S</div>
+          </div>
+          <div class="days"></div>
+        </div>
+      </div>
+    </div>
+    <!-- Calendar End -->
+  </div>
+
+</div>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+
+<script>
+  // ============================= Calendario Js Start =================================
+  const display = document.querySelector(".display");
+  const days = document.querySelector(".days");
+  const previous = document.querySelector(".left");
+  const next = document.querySelector(".right");
+
+  let date = new Date();
+
+  // Função para formatar a data
+  function formatDate() {
+    return date.toLocaleString("pt-BR", {
+      month: "long",
+      year: "numeric"
+    });
+  }
+
+  // Função para limpar os dias do calendário
+  function clearDays() {
+    days.innerHTML = "";
+  }
+
+  // Função para criar um dia no calendário
+  function createCalendarDay(day, currentDate, storedDate) {
+    const div = document.createElement("div");
+    div.dataset.date = currentDate.toISOString().split("T")[0];
+    div.innerHTML = day;
+
+    // Marcar apenas se for a data armazenada
+    if (storedDate === div.dataset.date) {
+      div.classList.add("current-date");
+    }
+
+    div.addEventListener("click", () => {
+      // Remover a classe de todos os dias antes de adicionar à data clicada
+      document.querySelectorAll(".days div").forEach(day => day.classList.remove("current-date"));
+
+      // Adicionar a classe apenas ao dia clicado
+      div.classList.add("current-date");
+
+      // Atualiza o sessionStorage com a nova data selecionada
+      sessionStorage.setItem("filtrosEstado", JSON.stringify({
+        data: div.dataset.date
+      }));
+
+      buscarPublicacoes(1);
+    });
+
+    days.appendChild(div);
+  }
+
+  // Exibir o calendário
+  function displayCalendar() {
+    clearDays();
+
+    const firstDay = new Date(date.getFullYear(), date.getMonth(), 1);
+    const lastDay = new Date(date.getFullYear(), date.getMonth() + 1, 0);
+    const firstDayIndex = firstDay.getDay();
+    const numberOfDays = lastDay.getDate();
+
+    display.innerHTML = formatDate();
+
+    let estado = JSON.parse(sessionStorage.getItem("filtrosEstado"));
+    let storedDate = estado ? estado.data : null;
+
+    // Se não houver data armazenada, seta a data atual
+    if (!storedDate) {
+      storedDate = new Date().toISOString().split("T")[0];
+      sessionStorage.setItem("filtrosEstado", JSON.stringify({
+        data: storedDate
+      }));
+    }
+
+    // Cria os dias do calendário
+    for (let x = 0; x < firstDayIndex; x++) {
+      days.appendChild(document.createElement("div"));
+    }
+
+    for (let i = 1; i <= numberOfDays; i++) {
+      let currentDate = new Date(date.getFullYear(), date.getMonth(), i);
+      createCalendarDay(i, currentDate, storedDate);
+    }
+  }
+
+
+  // Inicializa o calendário corretamente ao carregar a página
+  document.addEventListener("DOMContentLoaded", () => {
+    displayCalendar();
+  });
+
+
+  // Função para navegar entre os meses
+  function navigateMonth(offset) {
+    date.setMonth(date.getMonth() + offset);
+    clearDays();
+    displayCalendar();
+  }
+
+  previous.addEventListener("click", () => navigateMonth(-1));
+  next.addEventListener("click", () => navigateMonth(1));
+
+
+
+  // ============================= END Calendar Js End =================================
+
+  function removerTagsHtml(html) {
+    // coloca o texto com tags HTML em uma div e retorna só o textContent
+    const tempDiv = document.createElement("div");
+    tempDiv.innerHTML = html;
+    return tempDiv.textContent || tempDiv.innerText || "";
+  }
+
+  function buscarPublicacoes(pagina = 1) {
+    let tab = $('input[name=tabs]:checked').val();
+    let buscar = $('#buscar').val();
+    let data = $('.current-date').data('date');
+    let divPublicacoes = $('#publicacoes');
+    let divPaginacao = $('#paginacao');
+    let favoritas = $('#favoritas').is(':checked') ? 1 : 0;
+    let lidas = $('#lidas').is(':checked') ? 1 : 0;
+
+    if (buscar != '' || favoritas == 1 || lidas == 1) {
+      data = null;
+    }
+
+    const filtros = {
+      tab: tab,
+      buscar: buscar,
+      data: data,
+      favoritas: favoritas,
+      lidas: lidas
+    };
+
+    console.log(filtros, 'aqui');
+
+    // Adiciona o loader antes de iniciar a requisição
+    divPublicacoes.html('<div class="loader">Carregando...</div>');
+
+    $.ajax({
+      url: './assets/ajax/infogov.php?option=buscarPublicacoes',
+      method: 'POST',
+      data: {
+        tab: tab,
+        busca: buscar,
+        data: data,
+        pagina: pagina,
+        favoritas: favoritas,
+        lidas: lidas
+      },
+      success: function (response) {
+        // console.log(response, 'aqui');
+        const publicacoes = JSON.parse(response);
+
+        // Processa os resultados e remove o loader
+        processarResultados(publicacoes, pagina, tab);
+        salvarEstado();
+      },
+      error: function () {
+        // Em caso de erro, exibe uma mensagem
+        divPublicacoes.html('<div class="error">Erro ao carregar publicações.</div>');
+      }
+    });
+  }
+
+  // Função reutilizável para processar resultados (cache ou AJAX)
+  function processarResultados(publicacoes, pagina, tab) {
+    const divPublicacoes = $('#publicacoes');
+    divPublicacoes.empty();
+
+    // Lógica de exibição de mensagens de erro
+    if (tab == 'todos' && publicacoes[0].length == 0 && publicacoes[1].length == 0 && publicacoes[2].length == 0) {
+      divPublicacoes.html('<p style="color: red;">Nenhum resultado encontrado.</p>');
+    } else if (tab === 'portarias' && publicacoes[0].length == 0) {
+      divPublicacoes.html('<p style="color: red;">Nenhuma portaria encontrada.</p>');
+    } else if (tab === 'projetos' && publicacoes[1].length == 0) {
+      divPublicacoes.html('<p style="color: red;">Nenhum projeto encontrado.</p>');
+    } else if (tab === 'agenda' && publicacoes[2].length == 0) {
+      divPublicacoes.html('<p style="color: red;">Nenhuma agenda encontrada.</p>');
+    }
+
+    // Processamentos comuns
+    exibirPublicacoes(publicacoes);
+    criarPaginacao(publicacoes[3], pagina);
+
+    // Scroll para o topo
+    $('#top-page')[0].scrollIntoView({
+      behavior: 'smooth',
+      block: 'center'
+    });
+  }
+
+  function linkDiarioOficial({
+    id,
+    data_publicacao,
+    NoticiaLida,
+    titulo,
+    texto_corpo,
+    PalavrasEncontradas,
+    StatusFavorito
+  }) {
+    const publicacoesDiv = document.getElementById('publicacoes');
+    const html = `
+        <a href="diario_oficial?id=${id}" class="item p-xl-4 pb-14 pt-4 px-12 gap-8 rounded-8 border border-gray-100 hover-border-gray-200 transition-1 mb-16" style="min-width: 100%;" data-category="diario-oficial">                     
+            ${linkCompleto({
+      date: formatarData(data_publicacao),
+      status: parseInt(NoticiaLida),
+      varFavorito: parseInt(StatusFavorito),
+      idPublicacao: id,
+      initials: 'DO',
+      iconClass: 'ph-calendar-dots',
+      statusColor: 'text-success-600 bg-success-50',
+      initialsBgColor: 'bg-main-50',
+      initialsTextColor: 'text-main-500',
+      title: 'Diário Oficial',
+      subtitle: titulo,
+      description: limitarTexto(removerTagsHtml(texto_corpo), 150),
+      palavrasEncontradas: PalavrasEncontradas
+    })}
+        </a>
+    `;
+    publicacoesDiv.insertAdjacentHTML('beforeend', html);
+  }
+
+  function linkProjeto({
+    id_projeto,
+    data_apresentacao,
+    NoticiaLida,
+    ementa,
+    PalavrasEncontradas,
+    StatusFavorito
+  }) {
+    const publicacoesDiv = document.getElementById('publicacoes');
+    const html = `
+        <a href="projetos_de_lei?id=${id_projeto}" class="item p-xl-4 pb-14 pt-4 px-12 gap-8 rounded-8 border border-gray-100 hover-border-gray-200 transition-1 mb-16" style="min-width: 100%;" data-category="projetos-lei">
+            ${linkCompleto({
+      date: formatarData(data_apresentacao),
+      status: parseInt(NoticiaLida),
+      varFavorito: parseInt(StatusFavorito),
+      idPublicacao: id_projeto,
+      initials: 'PL',
+      iconClass: 'ph-calendar-dots',
+      statusColor: 'text-danger-600 bg-danger-50',
+      initialsBgColor: 'bg-danger-50',
+      initialsTextColor: 'text-danger-600',
+      title: 'Projetos de Lei',
+      subtitle: '',
+      description: limitarTexto(removerTagsHtml(ementa), 150),
+      palavrasEncontradas: PalavrasEncontradas
+    })}
+        </a>
+    `;
+    publicacoesDiv.insertAdjacentHTML('beforeend', html);
+  }
+
+  function linkAgenda({
+    id_agenda,
+    data_inicio,
+    hora_inicio,
+    NoticiaLida,
+    titulo,
+    local,
+    nome,
+    PalavrasEncontradas,
+    StatusFavorito
+  }) {
+    const publicacoesDiv = document.getElementById('publicacoes');
+    const dateFormatted = formatarData(data_inicio);
+    const html = `
+        <a href="agendas?id=${id_agenda}" class="item p-xl-4 pb-14 pt-4 px-12 gap-8 rounded-8 border border-gray-100 hover-border-gray-200 transition-1 mb-16" style="min-width: 100%;" data-category="agenda">                     
+            <div>
+                ${linkHeader({
+      date: dateFormatted,
+      status: parseInt(NoticiaLida),
+      varFavorito: parseInt(StatusFavorito),
+      idPublicacao: id_agenda,
+      initials: 'AG',
+      iconClass: 'ph-calendar-check',
+      statusColor: 'text-success-600 bg-success-50'
+    })}
+                ${agendaBody({
+      initialsBgColor: 'bg-warning-50',
+      initialsTextColor: 'text-success-600',
+      nomeAutoridade: nome,
+      subtitle: titulo,
+      description: local,
+      date: dateFormatted,
+      horaInicio: hora_inicio,
+      palavrasEncontradas: PalavrasEncontradas || ''
+    })}
+            </div>
+        </a>
+    `;
+    publicacoesDiv.insertAdjacentHTML('beforeend', html);
+  }
+
+  // Funções auxiliares para reutilização de código
+  function linkCompleto(params) {
+    return `
+        <div>
+            ${linkHeader(params)}
+            ${linkBody(params)}
+            ${linkPalavrasEncontradas(params.palavrasEncontradas)}
+        </div>
+    `;
+  }
+
+  function linkHeader({
+    date,
+    status,
+    varFavorito,
+    idPublicacao,
+    initials,
+    iconClass,
+    statusColor,
+    description
+  }) {
+    return `
+        <div class="flex-between">
+            <div class="d-flex align-items-center">
+                <div class="flex-align gap-4">
+                    <span class="text-11 text-gray-200 d-flex">
+                        <i class="ph ${iconClass}"></i>
+                    </span>
+                    <span class="text-11 text-gray-200">${date}</span>
+                </div>
+            </div>
+            <div class="d-flex align-items-center">
+                <span class="favorito cursor-pointer" style="margin-right: 8px;" 
+                    onclick="event.preventDefault(); event.stopPropagation(); favoritar((${varFavorito} === 1 ? 0 : 1), ${idPublicacao}, '${initials}')">
+                    ${varFavorito === 1 ? '⭐' : '☆'}
+                </span>
+                <span class="favorito cursor-pointer border bg-danger text-white" style="margin-right: 8px;" 
+                    onclick="event.preventDefault(); event.stopPropagation(); baixarPDF(${idPublicacao}, '${initials}')">
+                    <i class="ph ph-file-pdf"></i>
+                </span>
+                ${status > 0 ? `
+                <div>
+                    <span class="text-13 py-2 px-10 text-success-600 bg-success-50  d-inline-flex align-items-center gap-8 rounded-pill">
+                        Lida
+                    </span>
+                </div>` : ''}
+            </div>
+        </div>
+    `;
+  }
+
+
+  function baixarPDF(idPublicacao, tipoPublicacao) {
+    $.ajax({
+      url: './assets/ajax/infogov.php?option=baixarPDF',
+      method: 'POST',
+      data: {
+        idpublicacao: idPublicacao,
+        tipopublicacao: tipoPublicacao
+      },
+      success: function (data) {
+        let response = JSON.parse(data);
+        let logo = 'assets/images/logo/logo.png';
+        const {
+          jsPDF
+        } = window.jspdf;
+        const doc = new jsPDF({
+          format: 'a4',
+          unit: 'mm'
+        });
+        const margemEsquerda = 25;
+        const margemDireita = 25;
+        const larguraTexto = 210 - margemEsquerda - margemDireita;
+        const margemSuperior = 30;
+        const margemInferior = 20;
+        const espacoEntreLinhas = 7;
+        let posicaoY = margemSuperior;
+
+        // Define as dimensões da logo
+        const logoWidth = 30; // largura desejada em mm
+        const logoHeight = 15; // altura desejada em mm
+
+        doc.setFont("Times", "bold");
+        doc.setFontSize(14);
+
+        // Dividir o título em linhas, reduzindo a largura disponível na primeira linha para acomodar a logo
+        const tituloLinhas = doc.splitTextToSize(
+          response.titulo.toUpperCase(),
+          larguraTexto - logoWidth - 5 // 5 mm de espaçamento entre o texto e a logo
+        );
+
+        if (tituloLinhas.length > 0) {
+          // Desenha a primeira linha do título à esquerda
+          doc.text(tituloLinhas[0], margemEsquerda, posicaoY, {
+            maxWidth: larguraTexto - logoWidth - 5,
+            align: "justify"
+          });
+          // Insere a logo no canto direito da mesma linha
+          doc.addImage(logo, 'PNG', 210 - margemDireita - logoWidth, posicaoY - logoHeight + 10, logoWidth, logoHeight);
+          posicaoY += 10;
+          // Caso haja mais linhas no título, elas são exibidas normalmente abaixo
+          for (let i = 1; i < tituloLinhas.length; i++) {
+            doc.text(tituloLinhas[i], margemEsquerda, posicaoY, {
+              maxWidth: larguraTexto,
+              align: "justify"
+            });
+            posicaoY += 10;
+          }
+        }
+
+        doc.setFont("Times", "normal");
+        doc.setFontSize(12);
+        doc.text(formatarData(response.data_publicacao), margemEsquerda, posicaoY);
+        posicaoY += 10;
+
+        if (response.texto_corpo) {
+          const linhas = doc.splitTextToSize(removerTagsHtml(response.texto_corpo), larguraTexto);
+          linhas.forEach(linha => {
+            if (posicaoY + espacoEntreLinhas > doc.internal.pageSize.height - margemInferior) {
+              doc.addPage();
+              posicaoY = margemSuperior;
+            }
+            doc.text(linha, margemEsquerda, posicaoY, {
+              align: "justify"
+            });
+            posicaoY += espacoEntreLinhas;
+          });
+        }
+
+        if (response.url) {
+          posicaoY += 10;
+          doc.setFontSize(10);
+          const linhasURL = doc.splitTextToSize(response.url, larguraTexto);
+          linhasURL.forEach(linha => {
+            if (posicaoY + espacoEntreLinhas > doc.internal.pageSize.height - margemInferior) {
+              doc.addPage();
+              posicaoY = margemSuperior;
+            }
+            doc.text(linha, margemEsquerda, posicaoY, {
+              align: "justify"
+            });
+            posicaoY += espacoEntreLinhas;
+          });
+          posicaoY += 10;
+          doc.setFontSize(12);
+        }
+
+        if (response.assinatura) {
+          doc.text(response.assinatura, 210 - margemDireita, posicaoY, {
+            align: "right"
+          });
+        }
+
+        const totalPaginas = doc.internal.getNumberOfPages();
+        for (let i = 1; i <= totalPaginas; i++) {
+          doc.setPage(i);
+          doc.setFontSize(10);
+          doc.text(`Página ${i} de ${totalPaginas}`, margemEsquerda, doc.internal.pageSize.height - 10);
+        }
+
+        doc.save(response.titulo + ".pdf");
+      }
+    });
+  }
+
+  function linkBody({
+    initialsBgColor,
+    initialsTextColor,
+    initials,
+    title,
+    subtitle,
+    description
+  }) {
+    return `
+        <div class="flex-between gap-8">
+            <div class="d-flex gap-8 align-items-center">
+                <span class="${initialsBgColor} w-44 h-44 rounded-circle flex-center text-xl flex-shrink-0 monograma ${initialsTextColor}">
+                    ${initials}
+                </span>
+                <div>
+                    <h7 class="mb-0 span ${initialsTextColor}">${title}</h7>
+                    <h6 class="mb-0">${subtitle}</h6>
+                    <span class="text-13 text-gray-400">${description}</span>
+                </div>
+            </div>
+            <span class="text-gray-900 hover-text-main-600">
+                <i class="ph ph-caret-right"></i>
+            </span>
+        </div>
+    `;
+  }
+
+  function agendaBody({
+    initialsBgColor,
+    initialsTextColor,
+    nomeAutoridade,
+    subtitle,
+    description,
+    date,
+    horaInicio,
+    palavrasEncontradas
+  }) {
+    return `
+        <div class="flex-between gap-8">
+            <div class="d-flex gap-8 align-items-center">
+                <span class="${initialsBgColor} w-44 h-44 rounded-circle flex-center text-xl flex-shrink-0 monograma ${initialsTextColor}">
+                    AG
+                </span>
+                <div>
+                    <h5 class="mb-0 span text-success">Autoridade: ${nomeAutoridade}</h5>
+                    <h6 class="mb-0">${subtitle}</h6>
+                    <span class="text-13 text-gray-400"> Local: ${description}<br>
+                        <time datetime="${date.split('/').reverse().join('-')}T${horaInicio}">
+                            <i class="ph ph-clock"></i> ${date} ${horaInicio}
+                        </time>
+                    </span>
+                </div>
+            </div>
+            <span class="text-gray-900 hover-text-main-600">
+                <i class="ph ph-caret-right"></i>
+            </span>
+        </div>
+        ${linkPalavrasEncontradas(palavrasEncontradas)}
+    `;
+  }
+
+  function linkPalavrasEncontradas(palavrasEncontradas) {
+    return palavrasEncontradas ? `
+        <p class="pt-3 mt-3">
+            <span class="text-13 text-gray-400">Palavras Encontradas:</span> 
+            ${palavrasEncontradas.split(',').map(word => `
+                <span class="text-13 px-10 rounded-pill bg-main-50 text-main-500 mb-5">
+                    ${word.trim()}
+                </span>`).join('')}
+        </p>
+    ` : '';
+  }
+
+  function exibirPublicacoes(publicacoes) {
+    let todasPublicacoes = [
+      ...publicacoes[0].map(p => ({
+        ...p,
+        tipo: 'DO'
+      })),
+      ...publicacoes[1].map(p => ({
+        ...p,
+        tipo: 'PL'
+      })),
+      ...publicacoes[2].map(p => ({
+        ...p,
+        tipo: 'AG'
+      }))
+    ];
+
+    todasPublicacoes = ordenarPublicacoes(todasPublicacoes);
+
+    todasPublicacoes.forEach(pub => {
+
+      if (pub.tipo === 'AG') {
+        linkAgenda({
+          id_agenda: pub.id_agenda,
+          data_inicio: pub.data_inicio,
+          hora_inicio: pub.hora_inicio,
+          NoticiaLida: pub.NoticiaLida,
+          titulo: pub.titulo,
+          local: pub.local,
+          nome: pub.nome,
+          PalavrasEncontradas: pub.PalavrasEncontradas,
+          StatusFavorito: pub.StatusFavorito
+        });
+      } else if (pub.tipo === 'DO') {
+        linkDiarioOficial({
+          id: pub.id,
+          data_publicacao: pub.data_publicacao,
+          NoticiaLida: pub.NoticiaLida,
+          titulo: pub.titulo,
+          texto_corpo: pub.texto_corpo,
+          PalavrasEncontradas: pub.PalavrasEncontradas,
+          StatusFavorito: pub.StatusFavorito
+        });
+      } else if (pub.tipo === 'PL') {
+        linkProjeto({
+          id_projeto: pub.id_projeto,
+          data_apresentacao: pub.data_apresentacao,
+          NoticiaLida: pub.NoticiaLida,
+          ementa: pub.ementa,
+          PalavrasEncontradas: pub.PalavrasEncontradas,
+          StatusFavorito: pub.StatusFavorito
+        });
+      }
+    });
+  }
+
+  function favoritar(isFavorita, idpublicacao, tipopublicacao) {
+
+    $.ajax({
+      url: './assets/ajax/infogov.php?option=marcarDesmarcarFavorita',
+      method: 'POST',
+      data: {
+        idpublicacao: idpublicacao,
+        tipopublicacao: tipopublicacao,
+        favorita: isFavorita, // 0 ou 1<?= $_SESSION['IDUsuarioInfoGov'] ?>'
+      },
+      success: function (data) {
+        buscarPublicacoes(1);
+
+      }
+    });
+  }
+
+  function criarPaginacao(totalPaginas, paginaAtual) {
+    let divPaginacao = $('#paginacao');
+    divPaginacao.empty();
+
+    if (totalPaginas <= 1) { // Se houver apenas 1 página
+      let paginacaoHTML = `
+            <a href="#" id="anterior" class="btn btn-outline-gray rounded-pill py-9 flex-align gap-4 proximo disabled">
+                Anterior <span class="d-flex text-xl"><i class="ph ph-arrow-right"></i></span>
+            </a>
+            <ul class="pagination flex-align flex-wrap">
+              <li class="page-item active">
+                <a class="page-link h-44 w-44 flex-center text-15 rounded-8 fw-medium" href="#" data-pagina="1">1</a>
+              </li>
+            </ul>
+            <a href="#" id="proximo" class="btn btn-outline-gray rounded-pill py-9 flex-align gap-4 proximo disabled">
+                Próximo <span class="d-flex text-xl"><i class="ph ph-arrow-right"></i></span>
+            </a>`;
+      divPaginacao.html(paginacaoHTML);
+      return; // e sai da função
+    }
+
+    let paginacaoHTML = `
+        <a href="#" id="anterior" class="btn btn-outline-main rounded-pill py-9 flex-align gap-4 proximo ${paginaAtual == 1 ? 'disabled' : ''}">
+            <span class="d-flex text-xl"><i class="ph ph-arrow-left"></i></span> Anterior
+        </a>
+        <ul class="pagination flex-align flex-wrap">`;
+
+    if (totalPaginas <= 5) { // Exibe todas as páginas se houver 5 ou menos páginas
+      for (let i = 1; i <= totalPaginas; i++) {
+        paginacaoHTML += `<li class="page-item ${i === paginaAtual ? 'active' : ''}">
+                              <a class="page-link h-44 w-44 flex-center text-15 rounded-8 fw-medium" href="#" data-pagina="${i}">${i}</a>
+                          </li>`;
+      }
+    } else { // Para mais de 5 páginas, exibe o intervalo com '...'
+      // Define as páginas a serem exibidas
+      let paginasExibidas = [];
+
+      if (paginaAtual <= 3) {
+        paginasExibidas = [1, 2, 3, 4, '...', totalPaginas];
+      } else if (paginaAtual >= totalPaginas - 2) {
+        paginasExibidas = [1, '...', totalPaginas - 3, totalPaginas - 2, totalPaginas - 1, totalPaginas];
+      } else {
+        paginasExibidas = [1, '...', paginaAtual - 2, paginaAtual - 1, paginaAtual, paginaAtual + 1, paginaAtual + 2, '...', totalPaginas];
+      }
+
+      // Cria a lista de páginas
+      for (let i = 0; i < paginasExibidas.length; i++) {
+        if (paginasExibidas[i] === '...') {
+          paginacaoHTML += `<li class="page-item disabled"><span class="page-link">...</span></li>`;
+        } else {
+          paginacaoHTML += `<li class="page-item ${paginasExibidas[i] === paginaAtual ? 'active' : ''}">
+                                <a class="page-link h-44 w-44 flex-center text-15 rounded-8 fw-medium" href="#" data-pagina="${paginasExibidas[i]}">${paginasExibidas[i]}</a>
+                            </li>`;
+        }
+      }
+    }
+
+    paginacaoHTML += `</ul>
+        <a href="#" id="proximo" class="btn btn-outline-main rounded-pill py-9 flex-align gap-4 proximo ${paginaAtual == totalPaginas ? 'disabled' : ''}">
+            Próximo <span class="d-flex text-xl"><i class="ph ph-arrow-right"></i></span>
+        </a>`;
+
+    divPaginacao.html(paginacaoHTML);
+  }
+
+  function limitarTexto(texto, limite) {
+    if (texto.length > limite) {
+      return texto.substring(0, limite) + '...';
+    }
+    return texto;
+  }
+
+  function formatarData(data) {
+    if (!data) return ''; // Retorna vazio se a data for null, undefined ou string vazia
+    const dataSplit = data.split('-');
+    return `${dataSplit[2]}/${dataSplit[1]}/${dataSplit[0]}`;
+  }
+
+  function ordenarPublicacoes(publicacoes) {
+    return publicacoes.sort((a, b) => {
+      // Ordena por data decrescente
+      const dataA = new Date(a.data_publicacao || a.data_apresentacao || a.data_inicio);
+      const dataB = new Date(b.data_publicacao || b.data_apresentacao || b.data_inicio);
+
+      if (isNaN(dataA) || isNaN(dataB)) {
+        return 0;
+      }
+
+      return dataB - dataA;
+    });
+  }
+
+  $(document).ready(function () {
+    const pagina = carregarEstado();
+    buscarPublicacoes(pagina);
+
+
+    // Disparar busca ao mudar filtro (abas, busca ou data)
+    $('input[name=tabs]').on('change', function () {
+      buscarPublicacoes(1);
+    });
+
+    $('#favoritas').on('change', function () {
+      buscarPublicacoes(1);
+    });
+
+    $('#lidas').on('change', function () {
+      buscarPublicacoes(1);
+    });
+
+    $('#buscar').on('keyup', function () {
+      buscarPublicacoes(1);
+    });
+
+    // Atualizar paginação dinamicamente ao clicar em números de página
+    $('#paginacao').on('click', '.page-link', function (e) {
+      e.preventDefault();
+      let pagina = $(this).data('pagina');
+      buscarPublicacoes(pagina);
+    });
+
+    // Eventos para "Anterior" e "Próximo"
+    $('#paginacao').on('click', '#anterior', function (e) {
+      e.preventDefault();
+      let paginaAtual = $('.pagination .active a').data('pagina');
+      if (paginaAtual > 1) buscarPublicacoes(paginaAtual - 1);
+    });
+
+    $('#paginacao').on('click', '#proximo', function (e) {
+      e.preventDefault();
+      let paginaAtual = $('.pagination .active a').data('pagina');
+      let totalPaginas = $('.pagination .page-item').length;
+      if (paginaAtual < totalPaginas) buscarPublicacoes(paginaAtual + 1);
+    });
+  });
+
+  document.querySelectorAll('.sugestao').forEach(sugestao => {
+    sugestao.addEventListener('click', function (event) {
+      event.preventDefault(); // Evita redirecionamento
+      $('#buscar').val(this.textContent.trim());
+      buscarPublicacoes(1);
+    });
+  });
+
+  function salvarEstado() {
+    const estado = {
+      tab: $('input[name=tabs]:checked').val(),
+      buscar: $('#buscar').val(),
+      data: $('.current-date').data('date'),
+      favoritas: $('#favoritas').is(':checked'),
+      lidas: $('#lidas').is(':checked'),
+      pagina: $('.pagination .active a').data('pagina') || 1,
+      calendarioMes: date.getMonth(),
+      calendarioAno: date.getFullYear()
+    };
+    localStorage.setItem('filtrosEstado', JSON.stringify(estado));
+  }
+
+  function carregarEstado() {
+    const estado = JSON.parse(localStorage.getItem('filtrosEstado'));
+    if (!estado) return;
+
+    // Restaurar filtros básicos
+    $(`input[name=tabs][value=${estado.tab}]`).prop('checked', true);
+    $('#buscar').val(estado.buscar);
+    $('#favoritas').prop('checked', estado.favoritas);
+    $('#lidas').prop('checked', estado.lidas);
+
+    // Restaurar calendário
+    date = new Date(estado.calendarioAno, estado.calendarioMes);
+    clearDays();
+    displayCalendar();
+
+    // Marcar data selecionada
+    // if (estado.data) {
+    //   setTimeout(() => {
+    //     document.querySelectorAll('.days div').forEach(div => {
+    //       if (div.dataset.date === estado.data) {
+    //         div.classList.add('current-date');
+    //       }
+    //     });
+    //   }, 0);
+    // }
+
+    return estado.pagina;
+  }
+</script>
+<!-- <?php include 'footer.php' ?> -->
+{% include 'includes/footer.html' %}

@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  {% include 'includes/head.html' %}
+</head>
+
+<body>
+  <div class="preloader" style="display: none;">
+    <div class="loader"></div>
+  </div>
+  <div class="side-overlay"></div>
+  <section class="auth d-flex flex-column flex-md-row" style="background-color: #f5f7fa;">
+    <!-- Lado esquerdo com imagem ilustrativa -->
+    <div class="auth-left d-flex flex-column align-items-center justify-content-center p-24 w-100">
+      <img src="{{ url_for('static', filename='assets/images/logo/logo-r.png') }}" alt="Cadastro" class="mb-4" style="max-width: 300px;">
+      <h2 class="text-center">Crie sua conta</h2>
+      <p class="text-center text-muted">Acesso rápido ao sistema</p>
+    </div>
+  
+    <!-- Formulário de registro -->
+    <div class="auth-right py-40 px-24 flex-center flex-column w-100">
+      <div class="auth-right__inner mx-auto w-100" style="max-width: 400px;">
+        <form id="registerForm">
+          <div class="mb-5">
+            <label for="reg_nome" class="form-label mb-8 h6">Nome completo</label>
+            <div class="position-relative">
+              <input type="text" class="form-control py-11" id="reg_nome" placeholder="Nome completo">
+              <!-- <span class="position-absolute top-2 translate-middle-y ms-16 text-gray-600 d-flex"><i class="ph ph-identification-card"></i></span> -->
+            </div>
+          </div>
+          <div class="mb-5">
+            <label for="reg_email" class="form-label mb-8 h6">E-mail</label>
+            <div class="position-relative">
+              <input type="email" class="form-control py-11" id="reg_email" placeholder="E-mail">
+              <!-- <span class="position-absolute top-2 translate-middle-y ms-16 text-gray-600 d-flex"><i class="ph ph-envelope"></i></span> -->
+            </div>
+          </div>
+          <div class="mb-5">
+            <label for="reg_usuario" class="form-label mb-8 h6">Usuário</label>
+            <div class="position-relative">
+              <input type="text" class="form-control py-11" id="reg_usuario" placeholder="Usuário">
+              <!-- <span class="position-absolute top-2 translate-middle-y ms-16 text-gray-600 d-flex"><i class="ph ph-user"></i></span> -->
+            </div>
+          </div>
+          <div class="mb-5">
+            <label for="reg_senha" class="form-label mb-8 h6">Senha</label>
+            <div class="position-relative">
+              <input type="password" class="form-control py-11" id="reg_senha" placeholder="Senha">
+              <span class="toggle-password-register position-absolute top-2 inset-inline-end-0 me-16 translate-middle-y ph ph-eye-slash"></span>
+              <!-- <span class="position-absolute top-2 translate-middle-y ms-16 text-gray-600 d-flex"><i class="ph ph-lock"></i></span> -->
+            </div>
+          </div>
+          <div class="mb-5">
+            <label for="reg_conf_senha" class="form-label mb-8 h6">Confirmar senha</label>
+            <div class="position-relative">
+              <input type="password" class="form-control py-11" id="reg_conf_senha" placeholder="Confirme a senha">
+              <!-- <span class="position-absolute top-2 translate-middle-y ms-16 text-gray-600 d-flex"><i class="ph ph-lock-key"></i></span> -->
+            </div>
+          </div>
+          <button type="button" class="btn btn-success rounded-pill w-100" onclick="registrar()">Criar conta</button>
+          <p class="mt-16 text-center">Já tem conta? <a href="{{ url_for('login') }}">Entrar</a></p>
+        </form>
+      </div>
+    </div>
+  </section>
+  {% include 'includes/bibliotecas.html' %}
+  
+  <script>
+    function registrar() {
+      let usuario = $('#reg_usuario').val();
+      let senha = $('#reg_senha').val();
+      if (usuario === '') {
+        $('#reg_usuario').focus();
+        $('#error_reg_usuario').html('Preencha o campo usuário').show();
+        return;
+      } else if (senha === '') {
+        $('#reg_senha').focus();
+        $('#error_reg_senha').html('Preencha o campo senha').show();
+        return;
+      }
+      $.ajax({
+        url: "/register",
+        method: "POST",
+        contentType: "application/json",
+        data: JSON.stringify({ usuario: usuario, senha: senha }),
+        dataType: "json",
+        success: function (data) {
+          if (data.status === "success") {
+            Swal.fire({
+              icon: 'success',
+              title: 'Registrado com sucesso',
+              showConfirmButton: false,
+              timer: 1500
+            }).then(() => {
+              window.location.href = data.redirect;
+            });
+          } else {
+            Swal.fire({ icon: 'error', title: 'Erro', text: data.message });
+            $('#reg_usuario, #reg_senha').val('');
+          }
+        },
+        error: function () {
+          Swal.fire({ icon: 'error', title: 'Erro', text: 'Erro na requisição.' });
+          $('#reg_usuario, #reg_senha').val('');
+        }
+      });
+    }
+
+    function ocultarAviso() {
+      $('#error_reg_usuario, #error_reg_senha').hide();
+    }
+    $(document).ready(function () {
+      $(".toggle-password-register").click(function () {
+        let passwordField = $("#reg_senha");
+        if (passwordField.attr("type") === "password") {
+          passwordField.attr("type", "text");
+          $(this).removeClass("ph-eye-slash").addClass("ph-eye");
+        } else {
+          passwordField.attr("type", "password");
+          $(this).removeClass("ph-eye").addClass("ph-eye-slash");
+        }
+      });
+    });
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,175 @@
+<style>
+  .relative {
+    position: relative;
+  }
+
+  .file-input {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    cursor: pointer;
+  }
+
+  .camera-icon {
+    position: absolute;
+    top: 0px;
+    /* Ajuste a distância do fundo conforme necessário */
+    right: 57px;
+    /* Ajuste a distância da borda direita conforme necessário */
+    cursor: pointer;
+  }
+
+  .config-submenu {
+    display: none;
+  }
+
+  .config-dropdown.open .config-submenu {
+    display: block;
+  }
+
+  .sidebar-submenu {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .sidebar-submenu__link::before {
+    content: none;
+  }
+
+  .sidebar-submenu__item {
+    display: flex;
+    align-items: center;
+  }
+
+  .sidebar-submenu__item i {
+  margin-right: 0px;
+}
+
+.sidebar-submenu {
+  padding-left: 30px;
+}
+
+</style>
+
+<aside class="sidebar">
+  <!-- sidebar close btn -->
+  <button type="button" class="sidebar-close-btn text-gray-500 hover-text-white hover-bg-main-600 text-md w-24 h-24 border border-gray-100 hover-border-main-600 d-xl-none d-flex flex-center rounded-circle position-absolute"><i class="ph ph-x"></i></button>
+  <!-- sidebar close btn -->
+
+  <div class="sidebar-menu-wrapper overflow-y-auto scroll-sm">
+    <div class="p-20">
+      <div class="bg-main-800 p-20 pt-0 rounded-16 text-center mt-74">
+        <div class="menu-lateral">
+          <div class="relative">
+            <span class="border border-5 bg-white mx-auto border-primary-600 w-90 h-90 rounded-circle flex-center text-success-600 text-2xl translate-n74">
+              <input type="file" id="imageInput" class="file-input" onchange="previewImage()" accept="image/*" />
+              <img id="imagePreview" src="{{ url_for('static', filename='assets/images/logo/logo-r.png') }}" width="100%" alt="" class="rounded-circle object-cover w-full h-full" />
+            </span>
+            <i class="ph ph-pen fa-2x text-800 camera-icon" style="color: #0c244a;"></i>
+          </div>
+        </div>
+        <div class="mt-n74 adm">
+          <h5 class="mb-4 mt-22 upper-case">Rafael</h5>
+          <p class="">Desenvolvedor</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="p-20">
+      <ul class="sidebar-menu">
+        <li class="sidebar-menu__item">
+          <span class="text-gray-300 text-sm px-20 pt-20 fw-semibold border-top border-gray-100 d-block text-uppercase">Menu</span>
+        </li>
+        <li class="sidebar-menu__item">
+          <a href="/home" class="sidebar-menu__link">
+            <span class="icon"><i class="ph ph-squares-four"></i></span>
+            <span class="text">Home</span>
+          </a>
+        </li>
+
+        <li class="sidebar-menu__item has-dropdown config-dropdown">
+          <a href="javascript:void(0)" class="sidebar-menu__link" style="margin-bottom: 10px;" onclick="toggleDropdown(event, this)">
+            <span class="icon"><i class="ph ph-gear"></i></span>
+            <span class="text">Configurações</span>
+          </a>
+          <ul class="sidebar-submenu config-submenu">
+            <li class="sidebar-submenu__item">
+              <i class="ph ph-list-magnifying-glass"></i></span>
+              <a href="palavras_chave" class="sidebar-submenu__link">Configurar Palavras</a>
+            </li>
+            <li class="sidebar-submenu__item">
+              <i class="ph ph-user"></i></span>
+              <a href="usuarios" class="sidebar-submenu__link">Perfil</a>
+            </li>           
+          </ul>
+        </li>
+      </ul>
+    </div>
+  </div>
+</aside>
+
+<script>
+  function toggleDropdown(el) {
+    el.parentNode.classList.toggle('open');
+  }
+
+  function toggleDropdown(e, el) {
+    e.stopPropagation();
+    el.parentNode.classList.toggle('open');
+  }
+
+  // $(document).ready(function() {
+  //   $('.config-dropdown').off('click'); // remove o evento do main.js
+  // });
+
+
+
+  function previewImage() {
+    const input = $('#imageInput')[0]; // Aqui estamos pegando o input específico.
+    const file = input.files[0];
+    const preview = $('#imagePreview')[0];
+
+    const reader = new FileReader();
+
+    reader.onload = function(e) {
+      $(preview).attr('src', e.target.result); // Exibe a prévia da imagem
+    };
+
+    if (file) {
+      reader.readAsDataURL(file);
+
+      // Envia a imagem via AJAX para o servidor
+      uploadImage(file);
+    }
+  }
+
+  function uploadImage(file) {
+    const formData = new FormData();
+    formData.append("image", file);
+    formData.append("idusuario", '')
+    console.log(formData);
+
+    $.ajax({
+      url: 'assets/ajax/imagens.php?option=imgUser', // A URL para o script PHP
+      type: 'POST',
+      data: formData,
+      contentType: false,
+      processData: false,
+      success: function(response) {
+        const data = JSON.parse(response);
+        if (data.success) {
+          console.log("Imagem salva com sucesso!");
+        } else {
+          console.error("Erro ao salvar a imagem");
+        }
+      },
+      error: function() {
+        console.error("Erro na requisição AJAX");
+      }
+    });
+  }
+</script>

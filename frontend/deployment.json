@@ -1,0 +1,22 @@
+{
+  "serviceName": "licitasp-service",
+  "containers": {
+    "licitasp-app": {
+      "image": ":licitasp-service.licitasp-app.6",
+      "ports": {
+        "5000": "HTTP"
+      },
+      "environment": {
+        "PYTHONUNBUFFERED": "1"
+      }
+    }
+  },
+  "publicEndpoint": {
+    "containerName": "licitasp-app",
+    "containerPort": 5000,
+    "healthCheck": {
+      "path": "/",
+      "successCodes": "200,301,302"
+    }
+  }
+}

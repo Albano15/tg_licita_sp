@@ -1,0 +1,203 @@
+<!-- header.php contém o topbar e o infogov_aside -->
+{% include 'includes/header.html' %}
+
+<div class="card">
+  <div class="card-body p-lg-20 p-sm-3">
+    <div class="tab-content" id="pills-tabContent">
+      <div class="tab-pane fade show active" id="pills-details" role="tabpanel" aria-labelledby="pills-details-tab" tabindex="0">
+        <div class="card">
+          <div class="card-header border-bottom">
+            <h4 class="mb-4">Cadastro de Usuário</h4>
+            <!-- <p class="text-gray-600 text-15">Please fill full details about yourself</p> -->
+          </div>
+          <div class="card-body">
+            <form id="formUsuarios">
+              <div class="col-12">
+                <label for="imageUpload" class="form-label mb-8 h6">Foto</label>
+                <div class="flex-align gap-22">
+                  <div class="avatar-upload flex-shrink-0">
+                    <input type="file" name="imageUpload" id="imageUpload" accept=".png, .jpg, .jpeg">
+                    <div class="avatar-preview">
+                      <div id="profileImagePreview" style="background-image: url('assets/images/usuarios/user.jpeg');">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="avatar-upload-box text-center position-relative flex-grow-1 py-24 px-4 rounded-16 border border-main-300 border-dashed bg-main-50 hover-bg-main-100 hover-border-main-400 transition-2 cursor-pointer">
+                    <label for="imageUpload" class="position-absolute inset-block-start-0 inset-inline-start-0 w-100 h-100 rounded-16 cursor-pointer z-1"></label>
+                    <span class="text-32 icon text-main-600 d-inline-flex"><i class="ph ph-upload"></i></span>
+                    <span class="text-13 d-block text-gray-400 text my-8">Clique para adicionar sua foto</span>
+                    <span class="text-13 d-block text-main-600">Formatos aceitos SVG, PNG, JPEG OR GIF (max 1080px1200px)</span>
+                  </div>
+                </div>
+              </div>
+              <div class="row gy-4">
+                <div class="col-sm-6 col-xs-6">
+                  <label for="nome" class="form-label mb-8 h6">Nome</label>
+                  <input type="text" class="form-control py-11" name="nome" id="nome" placeholder="Digite o nome">
+                </div>
+                <!-- <div class="col-sm-6 col-xs-6">
+                  <label for="empresa" class="form-label mb-8 h6">Empresa</label>
+                  <select type="select" class="form-select py-11" name="empresa" id="empresa">
+                  </select>
+                </div> -->
+                <div class="col-sm-6 col-xs-6">
+                  <label for="email" class="form-label mb-8 h6">Email de notificação</label>
+                  <input type="email" class="form-control py-11" name="email" id="email" placeholder="Digite o email">
+                </div>
+                <!-- <div class="col-sm-6 col-xs-6">
+                  <label for="login" class="form-label mb-8 h6">Login</label>
+                  <input type="text" class="form-control py-11" name="login" id="login" placeholder="Digite o login">
+                </div> -->
+                <div class="col-sm-6 col-xs-6">
+                  <label for="current-password" class="form-label mb-8 h6">Senha</label>
+                  <div class="position-relative">
+                    <input type="password" class="form-control py-11" name="senha" id="current-password" placeholder="password">
+                    <span class="toggle-password position-absolute top-50 inset-inline-end-0 me-16 translate-middle-y ph ph-eye-slash"></span>
+                  </div>
+                </div>
+                <div class="col-sm-6 col-xs-6">
+                  <label for="current-password" class="form-label mb-8 h6">Confirme a Senha</label>
+                  <div class="position-relative">
+                    <input type="password" class="form-control py-11" name="senha" id="current-password" placeholder="password">
+                    <span class="toggle-password position-absolute top-50 inset-inline-end-0 me-16 translate-middle-y ph ph-eye-slash"></span>
+                  </div>
+                </div>
+                <input type="hidden" name="idusuario" id="idusuario" value="<?= $_GET['id'] ?? '' ?>">
+                <div class="col-12">
+                  <div class="flex-align justify-content-end gap-8">
+                    <button type="reset" class="btn btn-outline-main bg-main-100 border-main-100 text-main-600 rounded-pill py-9" onclick="voltar()">Cancelar</button>
+                    <button type="button" class="btn btn-main rounded-pill py-9" onclick="upsert()">Salvar</button>
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  function voltar() {
+    if (window.history.length > 1) {
+      window.history.back();
+    } else {
+      window.location.href = 'lista_usuarios'; // Altere para a URL correta
+    }
+  }
+
+
+  // mostrar imagem no preview
+  function uploadImageFunction(imageId, previewId) {
+    $(imageId).on('change', function() {
+      var input = this; // 'this' is the DOM element here
+      if (input.files && input.files[0]) {
+        var reader = new FileReader();
+        reader.onload = function(e) {
+          $(previewId).css('background-image', 'url(' + e.target.result + ')');
+          $(previewId).hide();
+          $(previewId).fadeIn(650);
+        }
+        reader.readAsDataURL(input.files[0]);
+      }
+    });
+  }
+  uploadImageFunction('#coverImageUpload', '#coverImagePreview');
+  uploadImageFunction('#imageUpload', '#profileImagePreview');
+
+  // Salvar / Inserir
+  function upsert() {
+    let IDUsuario = $('#idusuario').val();
+    let option = IDUsuario == '' ? 'insert' : 'update';
+
+    let form = $('#formUsuarios')[0];
+    // console.log(form);
+    let formData = new FormData(form);
+    formData.append('option', option);
+    // console.log(formData);
+
+    $.ajax({
+      url: './assets/ajax/usuarios.php',
+      method: 'POST',
+      data: formData,
+      processData: false,
+      contentType: false,
+      success: function(data) {
+        window.location.href = 'lista_usuarios';
+      },
+      error: function(xhr, status, error) {
+        console.error('Erro na requisição: ', error);
+      }
+    });
+  }
+
+  function buscarempresas() {
+    $.ajax({
+      url: './assets/ajax/infogov.php?option=buscarEmpresas',
+      method: 'POST',
+      data: {
+        idusuario: '1'
+      },
+      success: function(data) {
+        const empresas = JSON.parse(data);
+        let selectEmpresas = $('#empresa');
+
+        selectEmpresas.empty(); // Limpar o select antes de adicionar as opções
+
+        // Loop para adicionar as opções
+        for (let i = 0; i < empresas.length; i++) {
+          selectEmpresas.append(
+            '<option value="' + empresas[i].IDEmpresa + '" ' + (empresas[i].selected == 1 ? 'selected' : '') + '>' + empresas[i].Nome + '</option>'
+          );
+        }
+      }
+    });
+  }
+  buscarempresas();
+
+  document.addEventListener("DOMContentLoaded", function() {
+    const togglePassword = document.querySelector(".toggle-password");
+    const passwordField = document.getElementById("current-password");
+
+    togglePassword.addEventListener("click", function() {
+      if (passwordField.type === "password") {
+        passwordField.type = "text";
+        togglePassword.classList.remove("ph-eye-slash");
+        togglePassword.classList.add("ph-eye");
+      } else {
+        passwordField.type = "password";
+        togglePassword.classList.remove("ph-eye");
+        togglePassword.classList.add("ph-eye-slash");
+      }
+    });
+  });
+</script>
+
+<!-- <?php if (isset($_GET['id'])) { ?>
+  <script>
+    function buscarDadosUsuario() {
+      $.ajax({
+        url: './assets/ajax/usuarios.php',
+        method: 'POST',
+        data: {
+          option: 'dadosUsuario',
+          idusuario: '<?= $_GET['id'] ?>'
+        },
+        success: function(data) {
+          let usuario = JSON.parse(data);
+
+          $('#profileImagePreview').css('background-image', `url('assets/images/usuarios/${usuario.nome_foto ?? 'user.jpeg'}')`);
+          $('#nome').val(usuario.Nome);
+          $('#cargo').val(usuario.Cargo);
+          $('#login').val(usuario.Login);
+          $('#current-password').val(usuario.Senha);
+          // $('#empresa').val(usuario.IDEmpresa).trigger('change');
+        }
+      });
+    }
+    buscarDadosUsuario();
+  </script>
+
+<?php } ?> -->
+{% include 'includes/footer.html' %}

@@ -1,9 +1,0 @@
-version: '3.8'
-services:
-  scraper:
-    build: .
-    container_name: scraper_sp
-    volumes:
-      - .:/usr/src/app
-    cap_add:
-      - SYS_ADMIN

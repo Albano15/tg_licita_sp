@@ -1,2 +1,5 @@
 /commits-semanticos.txt
 node_modules/
+
+# Nunca Faça commit desse arquivo
+.env

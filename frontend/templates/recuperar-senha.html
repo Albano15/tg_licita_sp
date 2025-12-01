@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  {% include 'includes/head.html' %}
+</head>
+<body>
+  <div class="preloader" style="display: none;">
+    <div class="loader"></div>
+  </div>
+  <div class="side-overlay"></div>
+  <section class="auth d-flex flex-column flex-md-row">
+    <div class="auth-left d-flex flex-column align-items-center justify-content-center p-24 w-100">
+      <img src="{{ url_for('static', filename='assets/images/logo/logo-r.png') }}" alt="" class="mb-4">
+    </div>
+    <div class="auth-right py-40 px-24 flex-center flex-column w-100">
+      <div class="auth-right__inner mx-auto w-100">
+        <form id="recoveryForm">
+          <div class="mb-24">
+            <label for="email" class="form-label mb-8 h6">Email</label>
+            <div class="position-relative">
+              <input type="email" class="form-control py-11 ps-40" id="email" placeholder="Digite seu email">
+              <span class="position-absolute top-50 translate-middle-y ms-16 text-gray-600 d-flex"><i class="ph ph-envelope"></i></span>
+            </div>
+            <small style="color: red; display: none;" id="error_email"></small>
+          </div>
+          <button type="button" class="btn btn-main rounded-pill w-100" onclick="recuperarSenha()">Recuperar Senha</button>
+          <p class="mt-16 text-center">Lembrou sua senha? <a href="{{ url_for('login') }}">Entrar</a></p>
+        </form>
+      </div>
+    </div>
+  </section>
+  {% include 'includes/bibliotecas.html' %}
+  <script>
+    function recuperarSenha() {
+      let email = $('#email').val();
+      if (email === '') {
+        $('#email').focus();
+        $('#error_email').html('Preencha o campo email').show();
+        return;
+      }
+      $.ajax({
+        url: "/recuperar-senha",
+        method: "POST",
+        contentType: "application/json",
+        data: JSON.stringify({ email: email }),
+        dataType: "json",
+        success: function (data) {
+          if (data.status === "success") {
+            Swal.fire({ icon: 'success', title: 'Sucesso', text: data.message });
+            $('#email').val('');
+          } else {
+            Swal.fire({ icon: 'error', title: 'Erro', text: data.message });
+          }
+        },
+        error: function () {
+          Swal.fire({ icon: 'error', title: 'Erro', text: 'Erro na requisição.' });
+        }
+      });
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,155 @@
+<!-- header.php contém o topbar e o infogov_aside -->
+{% include 'includes/header.html' %}
+<div class="card">
+  <div class="card-body p-lg-20 p-sm-3">
+    <div class="card overflow-hidden">
+      <div class="card-body p-0">
+        <div id="assignmentTable_wrapper" class="dt-container dt-empty-footer">
+          <div class="row mb-3 justify-content-between">
+            <form class="position-relative col-sm-6 col-xs-6 text-end">
+              <button type="button" class="input-icon text-xl d-flex text-gray-600 pointer-event-none">
+                <i class="ph ph-magnifying-glass"></i>
+              </button>
+              <input type="text" id="filtro" onkeyup="buscarUsuarios()"
+                class="form-control ps-44 h-44 border-gray-100 focus-border-main-600 rounded-pill placeholder-15"
+                placeholder="Buscar...">
+            </form>
+            <div class="col-sm-auto">
+              <button type="button" onclick="inserirUsuario()" class="btn btn-main d-flex align-items-center justify-content-center rounded-circle p-0" style="width: 44px; height: 44px;">
+                <i class="ph ph-plus text-white" style="font-size: 24px;"></i>
+              </button>
+            </div>
+          </div>
+
+          <div class="dt-layout-row dt-layout-table pt-5 mt-5">
+            <div class="dt-layout-cell ">
+              <table id="assignmentTable" class="table table-striped" style="width: 100%;">
+                <thead>
+                  <tr role="row">
+                    <th class="h6 text-gray-300 dt-orderable-asc"><span class="dt-column-title" role="button">Usuário</span><span class="dt-column-order"></span></th>
+                    <th class="h6 text-gray-300 dt-orderable-asc"><span class="dt-column-title" role="button">Cargo</span><span class="dt-column-order"></span></th>
+                    <th class="h6 text-gray-300 dt-orderable-asc"><span class="dt-column-title" role="button">Status</span><span class="dt-column-order"></span></th>
+                    <th class="h6 text-gray-300 dt-orderable-asc"><span class="dt-column-title" role="button">Ações</span><span class="dt-column-order"></span></th>
+                  </tr>
+                </thead>
+                <tbody id="listar_usuarios">
+
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  function buscarUsuarios() {
+    let filtro = $('#filtro').val();
+
+    $.ajax({
+      url: './assets/ajax/usuarios.php',
+      method: 'POST',
+      data: {
+        option: 'buscarUsuarios',
+        filtro: filtro
+      },
+      success: function(data) {
+        let usuario = JSON.parse(data);
+        // console.log(usuario)
+        let divTabela = $('#listar_usuarios');
+        divTabela.empty();
+        let tabela = '';
+
+        if (usuario.length > 0) {
+          for (let i = 0; i < usuario.length; i++) {
+            tabela += `<tr>
+                          <td>
+                            <img src="assets/images/usuarios/${usuario[i].nome_foto ?? 'user.jpeg'}" alt="" class="w-60 h-40 rounded-circle">
+                            <span class="h6 mb-0 fw-medium text-gray-300" style="padding-left: 15px;">${usuario[i].Nome}</span>
+                          </td>
+                          <td>
+                            <span class="h6 mb-0 fw-medium text-gray-300">${usuario[i].Cargo}</span>
+                          </td>
+                          <td>
+                            <span class="text-13 py-2 px-8 bg-${usuario[i].Status == 1 ? 'teal' : 'danger'}-50 text-${usuario[i].Status == 1 ? 'teal' : 'danger'}-600 d-inline-flex align-items-center gap-8 rounded-pill">
+                              <span class="w-6 h-6 bg-${usuario[i].Status == 1 ? 'teal' : 'danger'}-600 rounded-circle flex-shrink-0"></span>
+                              ${usuario[i].Status == 1 ? 'Ativo' : 'Inativo'}
+                            </span>
+                          </td>
+                          <td>
+                            <a href="usuarios?id=${usuario[i].IDUsuario}" class="text-primary ms-2">
+                              <i class="ph ph-pencil" style="font-size: 24px;"></i>
+                            </a>
+                            <a class="${usuario[i].Status == 1 ? 'text-danger' : 'text-primary'}" 
+                               onclick="ativarInativarUsuario(${usuario[i].IDUsuario}, ${usuario[i].Status})">
+                               <i class="ph ${usuario[i].Status == 1 ? 'ph-trash' : 'ph-check'}" style="font-size: 24px;"></i>
+                            </a>
+
+                          </td>                    
+                        </tr>`;
+          }
+        } else {
+          tabela = 'Nenhum usuário encontrado.'
+        }
+
+        divTabela.html(tabela)
+
+      }
+    });
+  }
+  buscarUsuarios();
+
+  function ativarInativarUsuario(idusuario, statusUser) {
+    let status = statusUser == 1 ? 'desativar' : 'ativar';
+    let statusInvertido = statusUser == 1 ? 0 : 1;
+    
+    Swal.fire({
+      title: "Tem certeza?",
+      text: `Você deseja ${status} este usuário?`,
+      icon: "question",
+      showCancelButton: true,
+      confirmButtonText: "Sim",
+      cancelButtonText: "Cancelar"
+    }).then((result) => {
+      if (result.isConfirmed) {
+        $.ajax({
+          url: './assets/ajax/usuarios.php',
+          method: 'POST',
+          data: {
+            option: 'alterarStatusUsuario',
+            idusuario: idusuario,
+            statusInvertido: statusInvertido,
+          },
+          success: function(response) {
+            let res = response;
+
+            if (res) {
+              Swal.fire({
+                title: "Sucesso!",
+                text: statusInvertido == 1 ? "Usuário ativado!" : "Usuário desativado!",
+                icon: "success",
+                confirmButtonText: "OK"
+              }).then(() => {
+                location.reload(); // Recarrega a página
+              });
+            } else {
+              Swal.fire("Erro!", "Ocorreu um erro ao processar a ação.", "error");
+            }
+          },
+          error: function() {
+            Swal.fire("Erro!", "Falha na comunicação com o servidor.", "error");
+          }
+        });
+      }
+    });
+  }
+
+
+  function inserirUsuario() {
+    window.location.href = 'usuarios'
+  }
+</script>
+
+{% include 'includes/footer.html' %}

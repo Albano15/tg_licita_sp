@@ -1,0 +1,53 @@
+
+---
+
+# .gitignore
+
+Este `.gitignore` cobre:
+
+- Ambientes virtuais (`env/`, `.venv/`)
+- Arquivos do Python
+- Cache do PyCharm / VSCode
+- Arquivos gerados por Docker
+- Logs e caches diversos
+
+```gitignore
+# Ambientes virtuais
+env/
+.venv/
+venv/
+ENV/
+
+# Caches Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Logs
+*.log
+
+# Arquivos temporários
+*.tmp
+*.swp
+*.swo
+
+# Configurações do sistema/editor
+.vscode/
+.idea/
+
+# Build
+build/
+dist/
+*.egg-info/
+
+# Docker
+**/.dockerignore
+*.pid
+
+# Arquivos de sistema
+.DS_Store
+Thumbs.db
+
+# Não versionar credenciais acidentais
+*.env
