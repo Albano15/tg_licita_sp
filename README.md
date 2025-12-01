@@ -25,11 +25,11 @@ Social: democratiza o acesso de PMEs às licitações, reduz desigualdades compe
 
 🛠️ Tecnologias Utilizadas
 
-Next.js → framework React para frontend e SSR/SSG.
+Flask + Bootstrap → framework para frontend e SSR/SSG.
 
-Node.js → backend e APIs do sistema.
+Python → backend e APIs do sistema.
 
-Puppeteer → automação de scraping no DOE-SP.
+Selenium → automação de scraping no DOE-SP.
 
 MySQL ou PostgreSQL → banco de dados relacional.
 
@@ -38,16 +38,6 @@ Bootstrap / Tailwind CSS → front-end responsivo.
 Docker → conteinerização e deploy.
 
 Git/GitHub → versionamento do projeto.
-
-📂 Estrutura do Repositório
-
-/src → código-fonte do sistema (frontend e backend).
-
-/scraper → scripts de automação usando Puppeteer.
-
-/docs → documentação (Word, Excel, PDFs e imagens).
-
-/models → diagramas UML, BPMN e protótipos.
 
 📖 Documentação
 
